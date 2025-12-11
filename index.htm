@@ -1,0 +1,130 @@
+### កូដគំរូ `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>វេបសាយរបស់ខ្ញុំ</title>
+    
+    <!-- ដាក់ Font ខ្មែរពី Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ផ្នែកកំណត់រចនាប័ទ្ម (CSS) */
+        body {
+            font-family: 'Battambang', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ផ្នែកក្បាលខាងលើ (Header) */
+        header {
+            background-color: #24292e; /* ពណ៌ដូច GitHub */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* ផ្នែកកណ្ដាល (Container) */
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* ផ្នែកបង្ហាញព័ត៌មានសំខាន់ (Hero Section) */
+        .hero {
+            background: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .hero h2 {
+            color: #0366d6;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #218838;
+        }
+
+        /* ផ្នែក Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* ធ្វើឱ្យមើលលើទូរស័ព្ទស្អាត */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ស្វាគមន៍មកកាន់វេបសាយខ្ញុំ</h1>
+    </header>
+
+    <div class="container">
+        <!-- ប្រអប់ទី ១ -->
+        <section class="hero">
+            <h2>សួស្តី! ខ្ញុំឈ្មោះ [ដាក់ឈ្មោះអ្នកនៅទីនេះ]</h2>
+            <p>នេះគឺជាវេបសាយដំបូងដែលខ្ញុំបានបង្ហោះនៅលើ GitHub Pages។</p>
+            <p>ខ្ញុំកំពុងរៀនសរសេរកូដ និងបង្កើតគេហទំព័រដោយខ្លួនឯង។</p>
+            <a href="https://github.com/" class="btn">ទៅកាន់ Profile GitHub របស់ខ្ញុំ</a>
+        </section>
+
+        <!-- ប្រអប់ទី ២ -->
+        <section class="hero">
+            <h3>អំពីខ្ញុំ (About Me)</h3>
+            <p style="text-align: left;">
+                នៅទីនេះអ្នកអាចសរសេររៀបរាប់អំពីខ្លួនអ្នក បទពិសោធន៍ ឬចំណូលចិត្ត។
+                GitHub Pages ពិតជាងាយស្រួលប្រើ និងមិនអស់លុយទៀតផង!
+            </p>
+        </section>
+    </div>
+
+    <!-- ដាក់ដកឃ្លាខាងក្រោមដើម្បីកុំឱ្យ Footer បាំងអក្សរ -->
+    <div style="height: 60px;"></div>
+
+    <footer>
+        <p>រក្សាសិទ្ធិដោយ &copy; 2024 [ឈ្មោះរបស់អ្នក]</p>
+    </footer>
+
+</body>
+</html>
