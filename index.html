@@ -4,126 +4,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>វេបសាយរបស់ខ្ញុំ</title>
-    
-    <!-- ដាក់ Font ខ្មែរពី Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
+    <title>ChanraPhone - MMO Shop</title>
+    <!-- ដាក់ Font ខ្មែរ -->
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Siemreap&display=swap" rel="stylesheet">
+    <!-- ដាក់ Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* ផ្នែកកំណត់រចនាប័ទ្ម (CSS) */
+        /* --- ការកំណត់ទូទៅ (General Styles) --- */
+        :root {
+            --primary-color: #00d2ff; /* ពណ៌ខៀវខ្ចី */
+            --secondary-color: #3a7bd5; /* ពណ៌ខៀវដិត */
+            --bg-color: #0f172a; /* ពណ៌ផ្ទៃខាងក្រោយងងឹត */
+            --card-bg: #1e293b; /* ពណ៌ផ្ទៃផលិតផល */
+            --text-color: #f1f5f9;
+        }
+
         body {
             font-family: 'Battambang', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
         }
 
-        /* ផ្នែកក្បាលខាងលើ (Header) */
-        header {
-            background-color: #24292e; /* ពណ៌ដូច GitHub */
-            color: white;
-            padding: 20px 0;
-            text-align: center;
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; padding: 0; }
+
+        /* --- ផ្នែកក្បាល (Navbar) --- */
+        nav {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #334155;
+            backdrop-filter: blur(10px);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* ផ្នែកកណ្ដាល (Container) */
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px;
+        .nav-links a {
+            margin-left: 20px;
+            font-size: 1rem;
+            transition: 0.3s;
         }
 
-        /* ផ្នែកបង្ហាញព័ត៌មានសំខាន់ (Hero Section) */
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- ផ្នែក Banner ខាងលើ (Hero Section) --- */
         .hero {
-            background: white;
-            padding: 30px;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to right, #0f172a, #1e293b);
         }
 
-        .hero h2 {
-            color: #0366d6;
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .hero h1 span { color: var(--primary-color); }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 30px;
         }
 
-        .btn {
-            display: inline-block;
-            background: #28a745;
+        .btn-main {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .btn-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+        }
+
+        /* --- ផ្នែកផលិតផល (Products Grid) --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-img {
+            height: 180px;
+            background-color: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 3rem;
+        }
+        
+        /* ដាក់រូបភាពពិតនៅទីនេះ */
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin: 0 0 10px;
             font-weight: bold;
         }
 
-        .btn:hover {
-            background: #218838;
+        .product-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            flex-grow: 1;
         }
 
-        /* ផ្នែក Footer */
-        footer {
-            background-color: #333;
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .btn-buy {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
             color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        /* ធ្វើឱ្យមើលលើទូរស័ព្ទស្អាត */
+        .btn-buy:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* --- ផ្នែកទំនាក់ទំនង (Footer) --- */
+        footer {
+            background: #0b1120;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: white;
+            transition: 0.3s;
+        }
+        
+        .social-links a:hover { color: var(--primary-color); }
+
+        /* Responsive */
         @media (max-width: 600px) {
-            .container {
-                width: 95%;
-            }
-            header h1 {
-                font-size: 1.8rem;
-            }
+            .hero h1 { font-size: 1.8rem; }
+            .nav-links { display: none; } /* បិទម៉ឺនុយលើទូរស័ព្ទដើម្បីកុំឱ្យចង្អៀត */
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>ស្វាគមន៍មកកាន់វេបសាយខ្ញុំ</h1>
-    </header>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo"><i class="fas fa-gamepad"></i> ChanraPhone</div>
+        <div class="nav-links">
+            <a href="#">ទំព័រដើម</a>
+            <a href="#products">ទំនិញ</a>
+            <a href="#contact">ទំនាក់ទំនង</a>
+        </div>
+    </nav>
 
-    <div class="container">
-        <!-- ប្រអប់ទី ១ -->
-        <section class="hero">
-            <h2>សួស្តី! ខ្ញុំឈ្មោះ [ដាក់ឈ្មោះអ្នកនៅទីនេះ]</h2>
-            <p>នេះគឺជាវេបសាយដំបូងដែលខ្ញុំបានបង្ហោះនៅលើ GitHub Pages។</p>
-            <p>ខ្ញុំកំពុងរៀនសរសេរកូដ និងបង្កើតគេហទំព័រដោយខ្លួនឯង។</p>
-            <a href="https://github.com/" class="btn">ទៅកាន់ Profile GitHub របស់ខ្ញុំ</a>
-        </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to <span>ChanraPhone Shop</span></h1>
+        <p>ប្រភពផ្គត់ផ្គង់ MMO Tools, Accounts, និងសេវាកម្មឌីជីថល ដែលមានគុណភាព និងតម្លៃសមរម្យបំផុត។</p>
+        <a href="#products" class="btn-main">មើលទំនិញទាំងអស់ <i class="fas fa-arrow-down"></i></a>
+    </section>
 
-        <!-- ប្រអប់ទី ២ -->
-        <section class="hero">
-            <h3>អំពីខ្ញុំ (About Me)</h3>
-            <p style="text-align: left;">
-                នៅទីនេះអ្នកអាចសរសេររៀបរាប់អំពីខ្លួនអ្នក បទពិសោធន៍ ឬចំណូលចិត្ត។
-                GitHub Pages ពិតជាងាយស្រួលប្រើ និងមិនអស់លុយទៀតផង!
-            </p>
-        </section>
+    <!-- Products Section -->
+    <div class="container" id="products">
+        <h2 class="section-title">ទំនិញដែលពេញនិយម</h2>
+
+        <div class="product-grid">
+            
+            <!-- ផលិតផលទី ១ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <i class="fab fa-facebook"></i> <!-- ដាក់រូបភាពនៅទីនេះ -->
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Facebook Ads Account</h3>
+                    <p class="product-desc">គណនីសម្រាប់បាញ់ Ads រឹងមាំល្អ មិនងាយខូច។ មានធានាត្រឹមត្រូវ។</p>
+                    <div class="price-row">
+                        <span class="price">$15.00</span>
+                        <a href="https://t.me/UsernameTelegram" class="btn-buy">ទិញឥឡូវ</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ផលិតផលទី ២ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Gmail Old Stock</h3>
+                    <p class="product-desc">Gmail ឆ្នាំចាស់ៗ សម្រាប់ប្រើប្រាស់ការងារ MMO ផ្សេងៗ។</p>
+                    <div class="price-row">
+                        <span class="price">$0.50</span>
+                        <a href="https://t.me/UsernameTelegram" class="btn-buy">ទិញឥឡូវ</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ផលិតផលទី ៣ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Private Proxy / VPN</h3>
+                    <p class="product-desc">IP ស្អាត ល្បឿនលឿន សម្រាប់ចិញ្ចឹម Acc ឬធ្វើការងារសំខាន់ៗ។</p>
+                    <div class="price-row">
+                        <span class="price">$5.00 / ខែ</span>
+                        <a href="https://t.me/UsernameTelegram" class="btn-buy">ទិញឥឡូវ</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ផលិតផលទី ៤ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Automation Tools</h3>
+                    <p class="product-desc">Software ជំនួយការងារ MMO ជួយសន្សំពេលវេលា និងបង្កើនចំណូល។</p>
+                    <div class="price-row">
+                        <span class="price">Contact</span>
+                        <a href="https://t.me/UsernameTelegram" class="btn-buy">ឆាតសួរ</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- ដាក់ដកឃ្លាខាងក្រោមដើម្បីកុំឱ្យ Footer បាំងអក្សរ -->
-    <div style="height: 60px;"></div>
-
-    <footer>
-        <p>រក្សាសិទ្ធិដោយ &copy; 2024 [ឈ្មោះរបស់អ្នក]</p>
+    <!-- Contact Section -->
+    <footer id="contact">
+        <h2 style="color: white;">ទំនាក់ទំនងមកកាន់យើង</h2>
+        <div class="contact-info">
+            <p><i class="fas fa-phone-alt"></i> 077 857 878</p>
+            <p><i class="fab fa-telegram-plane"></i> @ChanraPhoneShop</p>
+        </div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <br>
+        <p style="font-size: 0.8rem; color: #64748b;">&copy; 2024 ChanraPhone Shop MMO. All rights reserved.</p>
     </footer>
 
 </body>
 </html>
-
