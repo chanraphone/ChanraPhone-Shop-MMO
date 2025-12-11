@@ -4,123 +4,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChanraPhone - Live System</title>
+    <title>ChanraPhone - MMO Shop System</title>
+    
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Script សម្រាប់អាន Google Sheet -->
+    
+    <!-- Script អាន Google Sheet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
     <style>
-        /* រចនាប័ទ្មដូចមុន (សង្ខេប) */
-        :root { --bg: #0f1115; --card: #181b21; --accent: #00ffc3; --text: #fff; }
-        body { font-family: 'Battambang', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-        nav { padding: 15px; background: rgba(0,0,0,0.8); display: flex; justify-content: space-between; position: sticky; top: 0; backdrop-filter: blur(5px); z-index: 99; border-bottom: 1px solid #333; }
-        .hero { text-align: center; padding: 40px 20px; background: linear-gradient(#1f2530, #0f1115); }
-        .hero h1 { color: var(--accent); margin: 0; }
+        /* --- CSS Styles --- */
+        :root {
+            --bg: #0f1115;
+            --card-bg: #181b21;
+            --accent: #00ffc3; /* ពណ៌បៃតងអ៊ីយូត */
+            --text: #ffffff;
+            --gray: #9ca3af;
+        }
+
+        body {
+            font-family: 'Battambang', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 0;
+        }
+
+        /* Navbar */
+        nav {
+            background: rgba(15, 17, 21, 0.95);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .logo { font-size: 1.3rem; font-weight: bold; color: var(--accent); letter-spacing: 1px; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: radial-gradient(circle at top, #1f2937, #0f1115);
+        }
+        .hero h1 { margin: 0; font-size: 2rem; }
+        .hero p { color: var(--gray); margin-top: 10px; }
+
+        /* Products Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
         
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        
-        .card { background: var(--card); border: 1px solid #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
-        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .card-img { height: 120px; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        /* Grid Layout */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        /* Card Design */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #2d3748;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 255, 195, 0.1);
+        }
+
+        /* Image Area */
+        .card-img {
+            height: 140px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #4b5563;
+        }
         .card-img img { width: 100%; height: 100%; object-fit: cover; }
-        .card-img i { font-size: 3rem; color: #555; }
-        
+
+        /* Card Content */
         .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        .tag { font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); padding: 2px 6px; border-radius: 4px; align-self: start; margin-bottom: 5px; }
-        .title { font-size: 1.1rem; margin: 0 0 5px; font-weight: bold; }
-        .desc { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; flex-grow: 1; }
-        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #333; padding-top: 10px; }
-        .price { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
-        .btn { background: var(--accent); color: #000; text-decoration: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
         
-        /* Loading Animation */
-        #loading { text-align: center; margin-top: 50px; font-size: 1.2rem; color: var(--accent); }
+        .badge {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .card-title { font-size: 1.1rem; font-weight: bold; margin: 0 0 5px; }
+        .card-desc { font-size: 0.85rem; color: var(--gray); margin-bottom: 15px; flex-grow: 1; }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+
+        .price { font-size: 1.2rem; font-weight: bold; color: #fff; }
+
+        .btn-buy {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-buy:hover { background: var(--accent); color: #000; }
+
+        /* Loading */
+        #loading { text-align: center; color: var(--accent); font-size: 1.2rem; margin-top: 50px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div style="font-weight:bold; font-size:1.2rem; color:var(--accent);">ChanraPhone System</div>
-        <a href="https://t.me/ChanraPhoneShop" style="color:white;"><i class="fab fa-telegram fa-lg"></i></a>
+        <div class="logo"><i class="fas fa-server"></i> ChanraPhone</div>
+        <a href="https://t.me/ChanraPhoneShop" style="color:#fff; font-size:1.2rem;"><i class="fab fa-telegram"></i></a>
     </nav>
 
     <div class="hero">
-        <h1>LIVE STOCK</h1>
-        <p>ទិន្នន័យផលិតផលអាប់ដេតពី Google Sheet ផ្ទាល់</p>
+        <h1>LIVE INVENTORY</h1>
+        <p>ទិន្នន័យទំនិញអាប់ដេតផ្ទាល់ពី System</p>
     </div>
 
     <div class="container">
-        <div id="loading"><i class="fas fa-spinner fa-spin"></i> កំពុងទាញទិន្នន័យ...</div>
-        <div class="product-grid" id="list"></div>
+        <!-- Loading Message -->
+        <div id="loading">
+            <i class="fas fa-spinner fa-spin"></i> កំពុងទាញទិន្នន័យពី Google Sheet...
+        </div>
+
+        <!-- Product List -->
+        <div class="product-grid" id="product-list"></div>
     </div>
 
+    <footer>
+        <p style="text-align:center; color:gray; margin-top:50px;">&copy; 2024 ChanraPhone MMO Shop.</p>
+    </footer>
+
+    <!-- ================= SYSTEM SCRIPT ================= -->
     <script>
-        // ========================================================
-        // ១. ដាក់ Link CSV ពី Google Sheet របស់អ្នកនៅទីនេះ
-        // ========================================================
-        const googleSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUXnBXNaXSSp6AaunoqooAQcQCUX9_HfIOXtnT2TF5HaQo622OyYPtxx-jy7Xf2dmt5VJ9r42Re1ph/pub?output=csv"; 
+        // Link Google Sheet របស់អ្នក (ខ្ញុំដាក់ឱ្យហើយ)
+        const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUXnBXNaXSSp6AaunoqooAQcQCUX9_HfIOXtnT2TF5HaQo622OyYPtxx-jy7Xf2dmt5VJ9r42Re1ph/pub?output=csv";
         
-        // ២. ដាក់ Link Telegram របស់អ្នក
-        const telegramBase = "https://t.me/ChanraPhoneShop"; 
+        // Link Telegram របស់អ្នក
+        const telegramLink = "https://t.me/ChanraPhoneShop";
 
-
-        // --- កូដដំណើរការ System (កុំប៉ះ) ---
-        function init() {
-            Papa.parse(googleSheetURL, {
+        // Function ទាញទិន្នន័យ
+        function loadProducts() {
+            Papa.parse(sheetURL, {
                 download: true,
                 header: true,
                 complete: function(results) {
-                    displayProducts(results.data);
+                    console.log(results.data); // មើលក្នុង Console បើមាន Error
+                    render(results.data);
                 },
                 error: function(err) {
-                    document.getElementById('loading').innerHTML = "មានបញ្ហាក្នុងការទាញទិន្នន័យ! សូមពិនិត្យ Link Google Sheet";
+                    document.getElementById('loading').innerHTML = "Error loading data!";
                 }
             });
         }
 
-        function displayProducts(data) {
-            const list = document.getElementById('list');
+        // Function បង្ហាញលើអេក្រង់
+        function render(data) {
+            const list = document.getElementById('product-list');
             const loading = document.getElementById('loading');
             
-            loading.style.display = 'none'; // បិទអក្សរ Loading
-            list.innerHTML = ''; // សម្អាតអេក្រង់
+            // បិទ Loading
+            loading.style.display = 'none';
+            list.innerHTML = '';
 
             data.forEach(item => {
-                // ពិនិត្យមើលបើជួរនោះអត់មានឈ្មោះ (ជួរទទេ) កុំបង្ហាញ
+                // ប្រសិនបើអត់មានឈ្មោះផលិតផល មិនបាច់បង្ហាញ (ការពារជួរទទេ)
                 if(!item.Name) return;
 
-                // ពិនិត្យរូបភាព (ដាក់ Link ឬដាក់ Icon class)
-                let imgContent = item.Image.includes('http') 
-                    ? `<img src="${item.Image}" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">`
+                // ពិនិត្យមើលរូបភាព (Link ឬ Icon)
+                let imgDisplay = item.Image && item.Image.includes('http')
+                    ? `<img src="${item.Image}" alt="${item.Name}">`
                     : `<i class="${item.Image || 'fas fa-box'}"></i>`;
 
-                list.innerHTML += `
+                // បង្កើត HTML Card
+                const cardHTML = `
                     <div class="card">
-                        <div class="card-img">${imgContent}</div>
+                        <div class="card-img">${imgDisplay}</div>
                         <div class="card-body">
-                            ${item.Category ? `<span class="tag">${item.Category}</span>` : ''}
-                            <div class="title">${item.Name}</div>
-                            <div class="desc">${item.Desc || ''}</div>
-                            <div class="footer">
+                            <div class="badge">${item.Category || ''}</div>
+                            <h3 class="card-title">${item.Name}</h3>
+                            <p class="card-desc">${item.Desc || ''}</p>
+                            <div class="card-footer">
                                 <span class="price">${item.Price}</span>
-                                <a href="${telegramBase}" target="_blank" class="btn">BUY</a>
+                                <a href="${telegramLink}" target="_blank" class="btn-buy">BUY</a>
                             </div>
                         </div>
                     </div>
                 `;
+                list.innerHTML += cardHTML;
             });
         }
 
         // ចាប់ផ្តើមដំណើរការ
-        // ប្រសិនបើអ្នកមិនទាន់ដាក់ Link ខាងលើទេ វានឹងមិនចេញអីទេ
-        if(googleSheetURL.includes("google.com")) {
-            init();
-        } else {
-            document.getElementById('loading').innerHTML = "សូមដាក់ Link CSV Google Sheet ចូលក្នុងកូដជាមុនសិន!";
-        }
+        loadProducts();
     </script>
+
 </body>
 </html>
 ```
