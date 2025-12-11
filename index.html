@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChanraPhone - MMO Shop</title>
+    <title>ChanraPhone - Realtime Stock</title>
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
     <style>
         :root { --bg: #0f1115; --card: #1e222b; --accent: #00ffc3; --text: #fff; }
@@ -15,23 +16,30 @@
         nav { background: rgba(15,17,21,0.95); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
         .hero { text-align: center; padding: 50px 20px; background: linear-gradient(#1f2530, #0f1115); }
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        
+        /* Grid System */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         
+        /* Card Design */
         .card { background: var(--card); border: 1px solid #333; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
         .card:hover { border-color: var(--accent); transform: translateY(-5px); }
         
-        /* កន្លែងកំណត់រូបភាព */
-        .card-img { height: 150px; background: #2a2f3b; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #555; overflow: hidden; }
+        .card-img { height: 140px; background: #2a2f3b; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #555; }
         .card-img img { width: 100%; height: 100%; object-fit: cover; }
         
         .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .category { color: var(--accent); font-size: 0.7rem; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
         .title { font-size: 1.1rem; font-weight: bold; margin: 0 0 5px; }
         .desc { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; flex-grow: 1; }
+        
         .footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #333; padding-top: 10px; }
         .price { font-size: 1.1rem; font-weight: bold; color: #fff; }
         .btn { border: 1px solid var(--accent); color: var(--accent); padding: 5px 15px; border-radius: 4px; font-weight: bold; text-decoration: none; transition: 0.3s; }
         .btn:hover { background: var(--accent); color: #000; }
+
+        /* Status & Loading */
+        #status { text-align: center; margin-top: 50px; color: var(--accent); font-size: 1.2rem; }
+        .error-msg { color: #ff4d4d; background: rgba(255, 77, 77, 0.1); padding: 10px; border-radius: 5px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -42,82 +50,92 @@
     </nav>
 
     <div class="hero">
-        <h1>MMO STORE</h1>
-        <p>គុណភាពល្អ តម្លៃសមរម្យ</p>
+        <h1>LIVE STOCK</h1>
+        <p>ទិន្នន័យទាញផ្ទាល់ពី Google Sheet</p>
     </div>
 
     <div class="container">
+        <!-- កន្លែងបង្ហាញសារ Loading ឬ Error -->
+        <div id="status"><i class="fas fa-spinner fa-spin"></i> កំពុងភ្ជាប់ទៅ Google Sheet...</div>
+        
+        <!-- តារាងទំនិញ -->
         <div class="product-grid" id="list"></div>
     </div>
 
-    <!-- ========================================== -->
-    <!--      កន្លែងបញ្ចូលផលិតផល (កែនៅទីនេះ)      -->
-    <!-- ========================================== -->
     <script>
+        // Link Google Sheet របស់បង
+        // ខ្ញុំបន្ថែម ?t=... ដើម្បីកុំឱ្យ Browser ចងចាំទិន្នន័យចាស់ (Force Update)
+        const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZvMLWbBvY76qysxTFTGI-ez0b0Vst2L28VxU-5NLaDA012cMk6bTaKjCmI1uSOe3xuLoxjavg2UAM/pub?output=csv";
         const telegramLink = "https://t.me/ChanraPhoneShop";
 
-        // បញ្ជីផលិតផល
-        const products = [
-            {
-                name: "Facebook Ads",
-                price: "$15.00",
-                desc: "Account រឹងមាំល្អ",
-                cat: "Social",
-                // ដាក់រូបភាព៖ អាចដាក់ Link ឬដាក់កូដ Icon
-                image: "fab fa-facebook" 
-            },
-            {
-                name: "Gmail Old",
-                price: "$0.50",
-                desc: "ឆ្នាំ 2018-2022",
-                cat: "Email",
-                image: "fab fa-google"
-            },
-            {
-                name: "Private VPN",
-                price: "$5.00",
-                desc: "IP ស្អាត ល្បឿនលឿន",
-                cat: "Tools",
-                // ឧទាហរណ៍ដាក់ Link រូបភាពពិត (យកពី Facebook ឬ Telegram មកដាក់ក៏បាន)
-                image: "https://64.media.tumblr.com/c0b25b4900468e0e2763f652829ed417/dbacb4e779ecf36b-8d/s1280x1920/2864f0b829413abccdc7b441cfd9280eda8903e3.jpg"
-            },
-            // --- ចង់ថែមផលិតផលថ្មី? Copy ខាងក្រោមដាក់ចូល ---
-            /*
-            {
-                name: "ឈ្មោះទំនិញ",
-                price: "$10.00",
-                desc: "ការពិពណ៌នា...",
-                cat: "ប្រភេទ",
-                image: "ដាក់ Link រូបភាព ឬ Icon"
-            },
-            */
-        ];
+        function init() {
+            // បន្ថែមពេលវេលាដើម្បីអោយវា Update ថ្មីរហូត
+            const finalURL = sheetURL + "&t=" + Date.now();
 
-        // កូដដំណើរការ (កុំប៉ះ)
-        const list = document.getElementById('list');
-        products.forEach(item => {
-            let imgHTML = `<i class="${item.image}"></i>`; // ករណីដាក់ Icon
-            
-            // ករណីដាក់ Link រូបភាព (មានពាក្យ http ឬ .png .jpg)
-            if (item.image.includes('http') || item.image.includes('.png') || item.image.includes('.jpg')) {
-                imgHTML = `<img src="${item.image}" onerror="this.src='https://via.placeholder.com/150'">`;
-            }
+            Papa.parse(finalURL, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    console.log(results.data); // មើលក្នុង Console
+                    
+                    if (results.data.length > 0 && results.data[0].Name) {
+                        // បើមានទិន្នន័យ និងមានជួរឈ្មោះ Name
+                        render(results.data);
+                    } else {
+                        // បើ Sheet ទទេ ឬអត់មានក្បាល Name
+                        document.getElementById('status').innerHTML = `
+                            <div class="error-msg">
+                                <i class="fas fa-exclamation-triangle"></i> រកមិនឃើញទិន្នន័យផលិតផល!<br>
+                                <small>សូមពិនិត្យមើល Google Sheet របស់អ្នក។ ត្រូវប្រាកដថាមានក្បាលតារាង: Name, Price, Image</small>
+                            </div>
+                        `;
+                    }
+                },
+                error: function(err) {
+                    document.getElementById('status').innerText = "មានបញ្ហាក្នុងការភ្ជាប់ទៅ Google Sheet!";
+                }
+            });
+        }
 
-            list.innerHTML += `
-                <div class="card">
-                    <div class="card-img">${imgHTML}</div>
-                    <div class="card-body">
-                        <div class="category">${item.cat}</div>
-                        <div class="title">${item.name}</div>
-                        <div class="desc">${item.desc}</div>
-                        <div class="footer">
-                            <span class="price">${item.price}</span>
-                            <a href="${telegramLink}" target="_blank" class="btn">BUY</a>
+        function render(data) {
+            const list = document.getElementById('list');
+            document.getElementById('status').style.display = 'none'; // បិទ Loading
+            list.innerHTML = '';
+
+            data.forEach(item => {
+                // មិនបង្ហាញបើគ្មានឈ្មោះ
+                if (!item.Name) return;
+
+                // កំណត់រូបភាព
+                let imgHTML = `<i class="fas fa-box"></i>`; // រូបដើម
+                if (item.Image) {
+                    if (item.Image.includes('http')) {
+                        imgHTML = `<img src="${item.Image}">`;
+                    } else {
+                        imgHTML = `<i class="${item.Image}"></i>`;
+                    }
+                }
+
+                // បង្កើត HTML
+                list.innerHTML += `
+                    <div class="card">
+                        <div class="card-img">${imgHTML}</div>
+                        <div class="card-body">
+                            <div class="category">${item.Category || ''}</div>
+                            <div class="title">${item.Name}</div>
+                            <div class="desc">${item.Desc || ''}</div>
+                            <div class="footer">
+                                <span class="price">${item.Price || '$0'}</span>
+                                <a href="${telegramLink}" target="_blank" class="btn">BUY</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        });
+                `;
+            });
+        }
+
+        init();
     </script>
 </body>
 </html>
