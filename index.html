@@ -5,184 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChanraPhone - MMO Shop</title>
-    
-    <!-- ដាក់ Font ខ្មែរ (Battambang) -->
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- ដាក់ Icon (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- ការកំណត់ទូទៅ (Global Styles) --- */
+        /* --- Setting Colors --- */
         :root {
-            --primary-color: #00eaff; /* ពណ៌ផ្ទៃខៀវអ៊ីយូត */
-            --secondary-color: #007bff;
-            --bg-dark: #0b0f19; /* ពណ៌ផ្ទៃក្រោយងងឹត */
-            --card-bg: #151b2b; /* ពណ៌ប្រអប់ផលិតផល */
+            --bg-body: #0f1115; /* ខ្មៅស្រាល */
+            --bg-card: #181b21; /* ខ្មៅដិតសម្រាប់កាត */
+            --accent: #00ffc3;  /* ពណ៌បៃតងខ្ចីអ៊ីយូត (ទាក់ទាញ) */
             --text-main: #ffffff;
-            --text-sub: #a0aec0;
+            --text-gray: #8b9bb4;
         }
-
-        * { box-sizing: border-box; }
 
         body {
             font-family: 'Battambang', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-body);
             color: var(--text-main);
+            margin: 0; padding: 0;
         }
 
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; padding: 0; margin: 0; }
-
-        /* --- Navbar (ផ្នែកខាងលើ) --- */
+        /* --- Navbar --- */
         nav {
-            background: rgba(11, 15, 25, 0.95);
-            border-bottom: 1px solid #2d3748;
-            padding: 15px 5%;
+            background: rgba(15, 17, 21, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 5%;
+            border-bottom: 1px solid #2a2e35;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            z-index: 100;
         }
+        .logo { font-size: 1.2rem; font-weight: bold; color: var(--accent); letter-spacing: 1px; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .logo i { margin-right: 8px; }
-
-        .menu a {
-            margin-left: 20px;
-            color: var(--text-sub);
-            font-size: 0.95rem;
-        }
-
-        .menu a:hover { color: var(--primary-color); }
-
-        /* --- Hero Section (ផ្ទាំងធំខាងលើ) --- */
+        /* --- Hero Section --- */
         .hero {
             text-align: center;
-            padding: 80px 20px;
-            background: radial-gradient(circle at center, #1a202c 0%, #0b0f19 100%);
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: -webkit-linear-gradient(#fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero span {
-            background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            color: var(--text-sub);
-            max-width: 600px;
-            margin: 0 auto 30px;
-            font-size: 1.1rem;
-        }
-
-        /* --- Container --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 40px 20px;
+            background: radial-gradient(circle, #1f2530 0%, #0f1115 100%);
+        }
+        .hero h1 { font-size: 1.8rem; margin: 0; }
+        .hero p { color: var(--text-gray); font-size: 0.9rem; margin-top: 5px; }
+
+        /* --- Filter Buttons (ធ្វើឱ្យមានរបៀប) --- */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #232730;
+            border: 1px solid #353a45;
+            color: var(--text-gray);
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            border-color: var(--accent);
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-
-        /* --- Product Grid (តារាងផលិតផល) --- */
+        /* --- Product Grid (តូចជាងមុន) --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 15px 50px; }
+        
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* កំណត់ទំហំកាតត្រឹម 200px */
+            gap: 15px;
         }
 
-        .product-card {
-            background: var(--card-bg);
-            border: 1px solid #2d3748;
-            border-radius: 12px;
+        /* --- Card Design (តូច និងទាក់ទាញ) --- */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #2a2e35;
+            border-radius: 8px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease-in-out;
+            position: relative;
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-            box-shadow: 0 10px 20px rgba(0, 234, 255, 0.1);
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 195, 0.15); /* ពន្លឺ Neon */
         }
 
-        /* កន្លែងដាក់រូបភាព ឬ Icon */
         .card-img {
-            height: 160px;
-            background: #1e2533;
+            height: 100px; /* រូបភាពតូចជាងមុន */
+            background: #1e2229;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: 2.5rem;
             color: #4a5568;
         }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
 
-        .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .card-body { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
 
-        .card-body {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+        .card-category {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
         .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 0 0 8px;
-            color: white;
+            font-size: 1rem;
+            margin: 0 0 5px;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-desc {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            margin-bottom: 20px;
-            line-height: 1.5;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* បង្ហាញតែ 2 បន្ទាត់ */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
             flex-grow: 1;
         }
 
@@ -191,170 +148,176 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
-            border-top: 1px solid #2d3748;
-            padding-top: 15px;
         }
 
-        .price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
+        .price { font-weight: bold; color: #fff; font-size: 1rem; }
+        
         .btn-buy {
             background: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
+            border: 1px solid var(--text-gray);
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 4px;
+            transition: 0.2s;
         }
-
-        .btn-buy:hover {
-            background: var(--primary-color);
+        
+        .card:hover .btn-buy {
+            background: var(--accent);
             color: #000;
+            border-color: var(--accent);
         }
 
-        /* --- Footer --- */
+        /* Footer */
         footer {
             text-align: center;
-            padding: 40px 20px;
-            background: #080b12;
-            margin-top: 60px;
-            border-top: 1px solid #2d3748;
-            color: var(--text-sub);
+            padding: 20px;
+            border-top: 1px solid #2a2e35;
+            font-size: 0.8rem;
+            color: var(--text-gray);
         }
 
         /* Responsive */
         @media (max-width: 600px) {
-            .hero h1 { font-size: 1.8rem; }
-            .menu { display: none; } /* បិទម៉ឺនុយលើទូរស័ព្ទ */
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } /* ទូរស័ព្ទចេញ ២ ជួរ */
+            .card-img { height: 80px; font-size: 2rem; }
+            .card-body { padding: 10px; }
+            .card-title { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav>
-        <div class="logo">
-            <i class="fas fa-gamepad"></i> ChanraPhone
-        </div>
-        <div class="menu">
-            <a href="#">ទំព័រដើម</a>
-            <a href="#products">ផលិតផល</a>
-            <a href="#contact">ទំនាក់ទំនង</a>
-        </div>
+        <div class="logo"><i class="fas fa-gamepad"></i> ChanraPhone</div>
+        <a href="https://t.me/ChanraPhoneShop" style="color:white; font-size:1.2rem;"><i class="fab fa-telegram"></i></a>
     </nav>
 
-    <!-- Hero Header -->
-    <header class="hero">
-        <h1>Welcome to <span>ChanraPhone Shop</span></h1>
-        <p>ប្រភពផ្គត់ផ្គង់ MMO Tools, Accounts និងសេវាកម្មឌីជីថល ដែលមានគុណភាព និងទំនុកចិត្ត។</p>
-    </header>
-
-    <!-- Product Section -->
-    <div class="container" id="products">
-        <h2 class="section-title">ទំនិញពេញនិយម</h2>
-        
-        <!-- កន្លែងនេះនឹងបង្ហាញផលិតផលដោយស្វ័យប្រវត្តិពី JS ខាងក្រោម -->
-        <div class="product-grid" id="product-list-container"></div>
+    <div class="hero">
+        <h1>MMO Shop Store</h1>
+        <p>Premium Tools & Accounts for Professional</p>
     </div>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <h3 style="color: white; margin-bottom: 10px;">ទំនាក់ទំនងយើងខ្ញុំ</h3>
-        <p><i class="fas fa-phone"></i> 077 857 878</p>
-        <p><i class="fab fa-telegram"></i> @ChanraPhoneShop</p>
-        <br>
-        <p style="font-size: 0.8rem;">&copy; 2024 ChanraPhone MMO Shop. All rights reserved.</p>
+    <div class="container">
+        <!-- Filter Buttons -->
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            <button class="filter-btn" onclick="filterProducts('fb')">Facebook</button>
+            <button class="filter-btn" onclick="filterProducts('email')">Gmail/Email</button>
+            <button class="filter-btn" onclick="filterProducts('tools')">Tools/VPN</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" id="product-list">
+            <!-- ផលិតផលនឹងលោតមកទីនេះ -->
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 ChanraPhone Shop.
     </footer>
 
-
-    <!-- ======================================================== -->
-    <!--         ផ្នែកគ្រប់គ្រងផលិតផល (SYSTEM CONFIG)             -->
-    <!-- ======================================================== -->
+    <!-- ========================================== -->
+    <!--          SYSTEM CONFIG (កែនៅទីនេះ)        -->
+    <!-- ========================================== -->
     <script>
-        // ១. កំណត់ឈ្មោះតេឡេក្រាមរបស់អ្នកនៅទីនេះ (កុំភ្លេចដាក់ https://t.me/)
-        const telegramLink = "https://t.me/ChanraPhoneShop"; 
+        const telegram = "https://t.me/ChanraPhoneShop"; 
 
-        // ២. បញ្ជីផលិតផល (ចង់កែ ឬថែម ធ្វើនៅទីនេះ)
+        // បញ្ជីផលិតផល (កែតាមចិត្ត)
+        // category: ត្រូវដាក់អោយដូចឈ្មោះ Filter (fb, email, tools)
         const products = [
             {
-                name: "Facebook Ads Account",
-                description: "គណនីសម្រាប់បាញ់ Ads រឹងមាំល្អ មិនងាយខូច មានធានា។",
-                price: "$15.00",
-                icon: "fab fa-facebook-f" // ឈ្មោះ Icon (FontAwesome)
+                name: "Ads Account Limit $50",
+                desc: "Account រឹង, Limit $50 ធានាដូរថ្មី។",
+                price: "$5.00",
+                category: "fb",
+                icon: "fab fa-facebook"
             },
             {
-                name: "Gmail Old Stock",
-                description: "Gmail ឆ្នាំចាស់ៗ សម្រាប់ចុះឈ្មោះហ្គេម ឬប្រើការងារ MMO។",
-                price: "$0.50",
+                name: "BM Verified (Tick)",
+                desc: "Business Manager មានធីកខៀវ។",
+                price: "$80.00",
+                category: "fb",
+                icon: "fas fa-check-circle"
+            },
+            {
+                name: "Gmail Old 2018",
+                desc: "Gmail ឆ្នាំចាស់ Trusted មិនជាប់ Verify។",
+                price: "$0.80",
+                category: "email",
                 icon: "fab fa-google"
             },
             {
-                name: "Private Proxy / VPN",
-                description: "IP ស្អាត ល្បឿនលឿន។ ធានាដូរជូនបើមានបញ្ហា។",
-                price: "$5.00 /ខែ",
+                name: "Hotmail / Outlook",
+                desc: "សម្រាប់ចុះឈ្មោះហ្គេម និងធ្វើ Spam។",
+                price: "$0.10",
+                category: "email",
+                icon: "fab fa-microsoft"
+            },
+            {
+                name: "Private Proxy (US)",
+                desc: "IP អាមេរិក ល្បឿនលឿនសម្រាប់ Survey។",
+                price: "$2.00",
+                category: "tools",
                 icon: "fas fa-shield-alt"
             },
             {
-                name: "Tiktok Agency Account",
-                description: "គណនី Agency សម្រាប់រត់ Ads លើ Tiktok យ៉ាងរលូន។",
+                name: "HMA VPN Key",
+                desc: "License Key 1 ឆ្នាំពេញ។",
+                price: "$15.00",
+                category: "tools",
+                icon: "fas fa-key"
+            },
+            {
+                name: "Tiktok Agency Ads",
+                desc: "Acc Agency សម្រាប់រត់ Ads Tiktok",
                 price: "$25.00",
+                category: "fb", /* ឧទាហរណ៍ដាក់ចូល Social */
                 icon: "fab fa-tiktok"
-            },
-            {
-                name: "MMO Tool Software",
-                description: "Software ស្វ័យប្រវត្តិកម្ម ជួយសន្សំពេល និងកម្លាំង។",
-                price: "Contact",
-                icon: "fas fa-robot"
-            },
-            // --- ចង់ថែមផលិតផលថ្មី? Copy ខាងក្រោមនេះដាក់ចូល ---
-            /*
-            {
-                name: "ឈ្មោះផលិតផល",
-                description: "ការពិពណ៌នា...",
-                price: "$10.00",
-                icon: "fas fa-star"  // ឬដាក់ Link រូបភាព: "https://example.com/img.jpg"
-            },
-            */
+            }
         ];
 
+        // --- កូដដំណើរការ System (កុំប៉ះ) ---
+        const list = document.getElementById('product-list');
+        const btns = document.querySelectorAll('.filter-btn');
 
-        // --- កូដដំណើរការ (កុំប៉ះពាល់ផ្នែកខាងក្រោមនេះ) ---
-        const container = document.getElementById('product-list-container');
+        function renderProducts(filter = 'all') {
+            list.innerHTML = '';
+            products.forEach(p => {
+                if(filter === 'all' || p.category === filter) {
+                    let img = p.icon.includes('/') 
+                        ? `<img src="${p.icon}">` 
+                        : `<i class="${p.icon}"></i>`;
 
-        products.forEach(product => {
-            // ពិនិត្យមើលថាជា Icon ឬជា Link រូបភាព
-            let visualContent;
-            if (product.icon.includes('http') || product.icon.includes('/')) {
-                // បើជា Link រូបភាព
-                visualContent = `<img src="${product.icon}" alt="${product.name}">`;
-            } else {
-                // បើជា Icon Class
-                visualContent = `<i class="${product.icon}"></i>`;
-            }
-
-            const htmlContent = `
-                <div class="product-card">
-                    <div class="card-img">
-                        ${visualContent}
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">${product.name}</h3>
-                        <p class="card-desc">${product.description}</p>
-                        <div class="card-footer">
-                            <span class="price">${product.price}</span>
-                            <a href="${telegramLink}" target="_blank" class="btn-buy">
-                                <i class="fab fa-telegram-plane"></i> ទិញឥឡូវ
-                            </a>
+                    list.innerHTML += `
+                        <div class="card">
+                            <div class="card-img">${img}</div>
+                            <div class="card-body">
+                                <div class="card-category">${p.category.toUpperCase()}</div>
+                                <h3 class="card-title">${p.name}</h3>
+                                <p class="card-desc">${p.desc}</p>
+                                <div class="card-footer">
+                                    <span class="price">${p.price}</span>
+                                    <a href="${telegram}" target="_blank" class="btn-buy">Buy</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += htmlContent;
-        });
+                    `;
+                }
+            });
+        }
+
+        // Filter Logic
+        function filterProducts(cat) {
+            renderProducts(cat);
+            // Update active button
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Run on load
+        renderProducts();
+
     </script>
 
 </body>
