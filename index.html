@@ -5,36 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChanraPhone - MMO Shop</title>
-    <!-- ដាក់ Font ខ្មែរ -->
-    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Siemreap&display=swap" rel="stylesheet">
-    <!-- ដាក់ Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- ដាក់ Font ខ្មែរ (Battambang) -->
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- ដាក់ Icon (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- ការកំណត់ទូទៅ (General Styles) --- */
+        /* --- ការកំណត់ទូទៅ (Global Styles) --- */
         :root {
-            --primary-color: #00d2ff; /* ពណ៌ខៀវខ្ចី */
-            --secondary-color: #3a7bd5; /* ពណ៌ខៀវដិត */
-            --bg-color: #0f172a; /* ពណ៌ផ្ទៃខាងក្រោយងងឹត */
-            --card-bg: #1e293b; /* ពណ៌ផ្ទៃផលិតផល */
-            --text-color: #f1f5f9;
+            --primary-color: #00eaff; /* ពណ៌ផ្ទៃខៀវអ៊ីយូត */
+            --secondary-color: #007bff;
+            --bg-dark: #0b0f19; /* ពណ៌ផ្ទៃក្រោយងងឹត */
+            --card-bg: #151b2b; /* ពណ៌ប្រអប់ផលិតផល */
+            --text-main: #ffffff;
+            --text-sub: #a0aec0;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Battambang', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; padding: 0; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; padding: 0; margin: 0; }
 
-        /* --- ផ្នែកក្បាល (Navbar) --- */
+        /* --- Navbar (ផ្នែកខាងលើ) --- */
         nav {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(11, 15, 25, 0.95);
+            border-bottom: 1px solid #2d3748;
             padding: 15px 5%;
             display: flex;
             justify-content: space-between;
@@ -42,7 +47,6 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #334155;
             backdrop-filter: blur(10px);
         }
 
@@ -54,74 +58,72 @@
             letter-spacing: 1px;
         }
 
-        .nav-links a {
+        .logo i { margin-right: 8px; }
+
+        .menu a {
             margin-left: 20px;
-            font-size: 1rem;
-            transition: 0.3s;
+            color: var(--text-sub);
+            font-size: 0.95rem;
         }
 
-        .nav-links a:hover { color: var(--primary-color); }
+        .menu a:hover { color: var(--primary-color); }
 
-        /* --- ផ្នែក Banner ខាងលើ (Hero Section) --- */
+        /* --- Hero Section (ផ្ទាំងធំខាងលើ) --- */
         .hero {
             text-align: center;
             padding: 80px 20px;
-            background: linear-gradient(to right, #0f172a, #1e293b);
+            background: radial-gradient(circle at center, #1a202c 0%, #0b0f19 100%);
         }
 
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            background: -webkit-linear-gradient(#fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        .hero h1 span { color: var(--primary-color); }
+        .hero span {
+            background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .hero p {
-            font-size: 1.1rem;
-            color: #94a3b8;
+            color: var(--text-sub);
             max-width: 600px;
             margin: 0 auto 30px;
+            font-size: 1.1rem;
         }
 
-        .btn-main {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-
-        .btn-main:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
-        }
-
-        /* --- ផ្នែកផលិតផល (Products Grid) --- */
+        /* --- Container --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 50px 20px;
+            padding: 40px 20px;
         }
 
         .section-title {
             text-align: center;
+            font-size: 1.8rem;
             margin-bottom: 40px;
-            font-size: 2rem;
             position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            margin: 10px auto;
-            border-radius: 2px;
+            padding-bottom: 10px;
         }
 
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* --- Product Grid (តារាងផលិតផល) --- */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -130,115 +132,104 @@
 
         .product-card {
             background: var(--card-bg);
-            border-radius: 15px;
+            border: 1px solid #2d3748;
+            border-radius: 12px;
             overflow: hidden;
-            transition: 0.3s;
-            border: 1px solid #334155;
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
             border-color: var(--primary-color);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 234, 255, 0.1);
         }
 
-        .product-img {
-            height: 180px;
-            background-color: #334155;
+        /* កន្លែងដាក់រូបភាព ឬ Icon */
+        .card-img {
+            height: 160px;
+            background: #1e2533;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64748b;
-            font-size: 3rem;
+            font-size: 4rem;
+            color: #4a5568;
         }
-        
-        /* ដាក់រូបភាពពិតនៅទីនេះ */
-        .product-img img {
+
+        .card-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .product-info {
+        .card-body {
             padding: 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .product-title {
+        .card-title {
             font-size: 1.2rem;
-            margin: 0 0 10px;
             font-weight: bold;
+            margin: 0 0 8px;
+            color: white;
         }
 
-        .product-desc {
+        .card-desc {
             font-size: 0.9rem;
-            color: #94a3b8;
-            margin-bottom: 15px;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            line-height: 1.5;
             flex-grow: 1;
         }
 
-        .price-row {
+        .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
+            border-top: 1px solid #2d3748;
+            padding-top: 15px;
         }
 
         .price {
-            font-size: 1.2rem;
-            color: var(--primary-color);
+            font-size: 1.3rem;
             font-weight: bold;
+            color: var(--primary-color);
         }
 
         .btn-buy {
-            background-color: transparent;
-            border: 2px solid var(--secondary-color);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         .btn-buy:hover {
-            background-color: var(--secondary-color);
+            background: var(--primary-color);
+            color: #000;
         }
 
-        /* --- ផ្នែកទំនាក់ទំនង (Footer) --- */
+        /* --- Footer --- */
         footer {
-            background: #0b1120;
-            padding: 40px 20px;
             text-align: center;
-            border-top: 1px solid #334155;
+            padding: 40px 20px;
+            background: #080b12;
+            margin-top: 60px;
+            border-top: 1px solid #2d3748;
+            color: var(--text-sub);
         }
-
-        .contact-info {
-            margin-bottom: 20px;
-        }
-        
-        .contact-info p {
-            font-size: 1.2rem;
-            margin: 5px 0;
-        }
-
-        .social-links a {
-            display: inline-block;
-            margin: 0 10px;
-            font-size: 1.5rem;
-            color: white;
-            transition: 0.3s;
-        }
-        
-        .social-links a:hover { color: var(--primary-color); }
 
         /* Responsive */
         @media (max-width: 600px) {
             .hero h1 { font-size: 1.8rem; }
-            .nav-links { display: none; } /* បិទម៉ឺនុយលើទូរស័ព្ទដើម្បីកុំឱ្យចង្អៀត */
+            .menu { display: none; } /* បិទម៉ឺនុយលើទូរស័ព្ទ */
         }
     </style>
 </head>
@@ -246,107 +237,141 @@
 
     <!-- Navbar -->
     <nav>
-        <div class="logo"><i class="fas fa-gamepad"></i> ChanraPhone</div>
-        <div class="nav-links">
+        <div class="logo">
+            <i class="fas fa-gamepad"></i> ChanraPhone
+        </div>
+        <div class="menu">
             <a href="#">ទំព័រដើម</a>
-            <a href="#products">ទំនិញ</a>
+            <a href="#products">ផលិតផល</a>
             <a href="#contact">ទំនាក់ទំនង</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Hero Header -->
+    <header class="hero">
         <h1>Welcome to <span>ChanraPhone Shop</span></h1>
-        <p>ប្រភពផ្គត់ផ្គង់ MMO Tools, Accounts, និងសេវាកម្មឌីជីថល ដែលមានគុណភាព និងតម្លៃសមរម្យបំផុត។</p>
-        <a href="#products" class="btn-main">មើលទំនិញទាំងអស់ <i class="fas fa-arrow-down"></i></a>
-    </section>
+        <p>ប្រភពផ្គត់ផ្គង់ MMO Tools, Accounts និងសេវាកម្មឌីជីថល ដែលមានគុណភាព និងទំនុកចិត្ត។</p>
+    </header>
 
-    <!-- Products Section -->
+    <!-- Product Section -->
     <div class="container" id="products">
-        <h2 class="section-title">ទំនិញដែលពេញនិយម</h2>
-
-        <div class="product-grid">
-            
-            <!-- ផលិតផលទី ១ -->
-            <div class="product-card">
-                <div class="product-img">
-                    <i class="fab fa-facebook"></i> <!-- ដាក់រូបភាពនៅទីនេះ -->
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Facebook Ads Account</h3>
-                    <p class="product-desc">គណនីសម្រាប់បាញ់ Ads រឹងមាំល្អ មិនងាយខូច។ មានធានាត្រឹមត្រូវ។</p>
-                    <div class="price-row">
-                        <span class="price">$15.00</span>
-                        <a href="@mobilesevic" class="btn-buy">ទិញឥឡូវ</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ផលិតផលទី ២ -->
-            <div class="product-card">
-                <div class="product-img">
-                    <i class="fab fa-google"></i>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Gmail Old Stock</h3>
-                    <p class="product-desc">Gmail ឆ្នាំចាស់ៗ សម្រាប់ប្រើប្រាស់ការងារ MMO ផ្សេងៗ។</p>
-                    <div class="price-row">
-                        <span class="price">$0.50</span>
-                        <a href="@mobilesevic" class="btn-buy">ទិញឥឡូវ</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ផលិតផលទី ៣ -->
-            <div class="product-card">
-                <div class="product-img">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Private Proxy / VPN</h3>
-                    <p class="product-desc">IP ស្អាត ល្បឿនលឿន សម្រាប់ចិញ្ចឹម Acc ឬធ្វើការងារសំខាន់ៗ។</p>
-                    <div class="price-row">
-                        <span class="price">$5.00 / ខែ</span>
-                        <a href="@mobilesevic" class="btn-buy">ទិញឥឡូវ</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ផលិតផលទី ៤ -->
-            <div class="product-card">
-                <div class="product-img">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Automation Tools</h3>
-                    <p class="product-desc">Software ជំនួយការងារ MMO ជួយសន្សំពេលវេលា និងបង្កើនចំណូល។</p>
-                    <div class="price-row">
-                        <span class="price">Contact</span>
-                        <a href="@mobilesevic" class="btn-buy">ឆាតសួរ</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <h2 class="section-title">ទំនិញពេញនិយម</h2>
+        
+        <!-- កន្លែងនេះនឹងបង្ហាញផលិតផលដោយស្វ័យប្រវត្តិពី JS ខាងក្រោម -->
+        <div class="product-grid" id="product-list-container"></div>
     </div>
 
-    <!-- Contact Section -->
+    <!-- Footer -->
     <footer id="contact">
-        <h2 style="color: white;">ទំនាក់ទំនងមកកាន់យើង</h2>
-        <div class="contact-info">
-            <p><i class="fas fa-phone-alt"></i> 077 857 878</p>
-            <p><i class="fab fa-telegram-plane"></i> @ChanraPhoneShop</p>
-        </div>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-telegram"></i></a>
-            <a href="#"><i class="fab fa-tiktok"></i></a>
-        </div>
+        <h3 style="color: white; margin-bottom: 10px;">ទំនាក់ទំនងយើងខ្ញុំ</h3>
+        <p><i class="fas fa-phone"></i> 077 857 878</p>
+        <p><i class="fab fa-telegram"></i> @ChanraPhoneShop</p>
         <br>
-        <p style="font-size: 0.8rem; color: #64748b;">&copy; 2024 ChanraPhone Shop MMO. All rights reserved.</p>
+        <p style="font-size: 0.8rem;">&copy; 2024 ChanraPhone MMO Shop. All rights reserved.</p>
     </footer>
+
+
+    <!-- ======================================================== -->
+    <!--         ផ្នែកគ្រប់គ្រងផលិតផល (SYSTEM CONFIG)             -->
+    <!-- ======================================================== -->
+    <script>
+        // ១. កំណត់ឈ្មោះតេឡេក្រាមរបស់អ្នកនៅទីនេះ (កុំភ្លេចដាក់ https://t.me/)
+        const telegramLink = "https://t.me/ChanraPhoneShop"; 
+
+        // ២. បញ្ជីផលិតផល (ចង់កែ ឬថែម ធ្វើនៅទីនេះ)
+        const products = [
+            {
+                name: "Facebook Ads Account",
+                description: "គណនីសម្រាប់បាញ់ Ads រឹងមាំល្អ មិនងាយខូច មានធានា។",
+                price: "$15.00",
+                icon: "fab fa-facebook-f" // ឈ្មោះ Icon (FontAwesome)
+            },
+            {
+                name: "Gmail Old Stock",
+                description: "Gmail ឆ្នាំចាស់ៗ សម្រាប់ចុះឈ្មោះហ្គេម ឬប្រើការងារ MMO។",
+                price: "$0.50",
+                icon: "fab fa-google"
+            },
+            {
+                name: "Private Proxy / VPN",
+                description: "IP ស្អាត ល្បឿនលឿន។ ធានាដូរជូនបើមានបញ្ហា។",
+                price: "$5.00 /ខែ",
+                icon: "fas fa-shield-alt"
+            },
+            {
+                name: "Tiktok Agency Account",
+                description: "គណនី Agency សម្រាប់រត់ Ads លើ Tiktok យ៉ាងរលូន។",
+                price: "$25.00",
+                icon: "fab fa-tiktok"
+            },
+            {
+                name: "MMO Tool Software",
+                description: "Software ស្វ័យប្រវត្តិកម្ម ជួយសន្សំពេល និងកម្លាំង។",
+                price: "Contact",
+                icon: "fas fa-robot"
+            },
+            // --- ចង់ថែមផលិតផលថ្មី? Copy ខាងក្រោមនេះដាក់ចូល ---
+            /*
+            {
+                name: "ឈ្មោះផលិតផល",
+                description: "ការពិពណ៌នា...",
+                price: "$10.00",
+                icon: "fas fa-star"  // ឬដាក់ Link រូបភាព: "https://example.com/img.jpg"
+            },
+            */
+        ];
+
+
+        // --- កូដដំណើរការ (កុំប៉ះពាល់ផ្នែកខាងក្រោមនេះ) ---
+        const container = document.getElementById('product-list-container');
+
+        products.forEach(product => {
+            // ពិនិត្យមើលថាជា Icon ឬជា Link រូបភាព
+            let visualContent;
+            if (product.icon.includes('http') || product.icon.includes('/')) {
+                // បើជា Link រូបភាព
+                visualContent = `<img src="${product.icon}" alt="${product.name}">`;
+            } else {
+                // បើជា Icon Class
+                visualContent = `<i class="${product.icon}"></i>`;
+            }
+
+            const htmlContent = `
+                <div class="product-card">
+                    <div class="card-img">
+                        ${visualContent}
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${product.name}</h3>
+                        <p class="card-desc">${product.description}</p>
+                        <div class="card-footer">
+                            <span class="price">${product.price}</span>
+                            <a href="${telegramLink}" target="_blank" class="btn-buy">
+                                <i class="fab fa-telegram-plane"></i> ទិញឥឡូវ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += htmlContent;
+        });
+    </script>
 
 </body>
 </html>
 ```
 
+### របៀបកែសម្រួល (ងាយៗ)៖
+
+នៅផ្នែកខាងក្រោមនៃកូដ អ្នកនឹងឃើញផ្នែក **SYSTEM CONFIG**៖
+
+1.  **ថែមផលិតផល៖**
+    អ្នកគ្រាន់តែថែមមួយដុំនេះចូលក្នុងកន្លែង `const products = [...]`៖
+    ```javascript
+    {
+        name: "ឈ្មោះទំនិញ",
+        description: "សរសេររៀបរាប់...",
+        price: "$10.00",
+        icon: "fas fa-star"
+    },
+    ```
