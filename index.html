@@ -4,224 +4,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChanraPhone - MMO Shop System</title>
-    
-    <!-- Fonts & Icons -->
+    <title>ChanraPhone - Live System</title>
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Script អាន Google Sheet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
     <style>
-        /* --- CSS Styles --- */
-        :root {
-            --bg: #0f1115;
-            --card-bg: #181b21;
-            --accent: #00ffc3; /* ពណ៌បៃតងអ៊ីយូត */
-            --text: #ffffff;
-            --gray: #9ca3af;
-        }
-
-        body {
-            font-family: 'Battambang', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0; padding: 0;
-        }
-
-        /* Navbar */
-        nav {
-            background: rgba(15, 17, 21, 0.95);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            position: sticky; top: 0; z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-        .logo { font-size: 1.3rem; font-weight: bold; color: var(--accent); letter-spacing: 1px; }
-
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 50px 20px;
-            background: radial-gradient(circle at top, #1f2937, #0f1115);
-        }
-        .hero h1 { margin: 0; font-size: 2rem; }
-        .hero p { color: var(--gray); margin-top: 10px; }
-
-        /* Products Container */
-        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        :root { --bg: #0f1115; --card: #1e222b; --accent: #00ffc3; --text: #fff; }
+        body { font-family: 'Battambang', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
+        nav { background: rgba(15,17,21,0.95); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
+        .hero { text-align: center; padding: 40px 20px; background: linear-gradient(#1f2530, #0f1115); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        /* Grid Layout */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        /* Card Design */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid #2d3748;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 5px 15px rgba(0, 255, 195, 0.1);
-        }
-
-        /* Image Area */
-        .card-img {
-            height: 140px;
-            background: #222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #4b5563;
-        }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        
+        .card { background: var(--card); border: 1px solid #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        
+        .card-img { height: 130px; background: #2a2f3b; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #555; }
         .card-img img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Card Content */
-        .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         
-        .badge {
-            font-size: 0.7rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+        .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .category { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
+        .title { font-size: 1.1rem; font-weight: bold; margin: 0 0 5px; }
+        .desc { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; flex-grow: 1; }
+        
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #333; padding-top: 10px; }
+        .price { font-size: 1.1rem; font-weight: bold; color: #fff; }
+        .btn { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 5px 15px; border-radius: 4px; font-weight: bold; text-decoration: none; transition: 0.3s; }
+        .btn:hover { background: var(--accent); color: #000; }
 
-        .card-title { font-size: 1.1rem; font-weight: bold; margin: 0 0 5px; }
-        .card-desc { font-size: 0.85rem; color: var(--gray); margin-bottom: 15px; flex-grow: 1; }
-
-        .card-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #333;
-            padding-top: 15px;
-        }
-
-        .price { font-size: 1.2rem; font-weight: bold; color: #fff; }
-
-        .btn-buy {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 6px 16px;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .btn-buy:hover { background: var(--accent); color: #000; }
-
-        /* Loading */
-        #loading { text-align: center; color: var(--accent); font-size: 1.2rem; margin-top: 50px; }
+        #status { text-align: center; margin-top: 50px; font-size: 1.2rem; color: #aaa; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo"><i class="fas fa-server"></i> ChanraPhone</div>
+        <div style="font-size:1.3rem; font-weight:bold; color:var(--accent);">ChanraPhone</div>
         <a href="https://t.me/ChanraPhoneShop" style="color:#fff; font-size:1.2rem;"><i class="fab fa-telegram"></i></a>
     </nav>
 
     <div class="hero">
-        <h1>LIVE INVENTORY</h1>
-        <p>ទិន្នន័យទំនិញអាប់ដេតផ្ទាល់ពី System</p>
+        <h1>LIVE STOCK</h1>
+        <p>ទំនិញអាប់ដេតផ្ទាល់ពី System</p>
     </div>
 
     <div class="container">
-        <!-- Loading Message -->
-        <div id="loading">
-            <i class="fas fa-spinner fa-spin"></i> កំពុងទាញទិន្នន័យពី Google Sheet...
+        <!-- កន្លែងបង្ហាញសារ Loading -->
+        <div id="status">
+            <i class="fas fa-spinner fa-spin"></i> កំពុងទាញទិន្នន័យ...
         </div>
 
-        <!-- Product List -->
-        <div class="product-grid" id="product-list"></div>
+        <!-- តារាងផលិតផល -->
+        <div class="product-grid" id="list"></div>
     </div>
 
-    <footer>
-        <p style="text-align:center; color:gray; margin-top:50px;">&copy; 2024 ChanraPhone MMO Shop.</p>
-    </footer>
-
-    <!-- ================= SYSTEM SCRIPT ================= -->
     <script>
-        // Link Google Sheet របស់អ្នក (ខ្ញុំដាក់ឱ្យហើយ)
+        // Link ថ្មីរបស់អ្នក (GID 1313969604)
         const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUXnBXNaXSSp6AaunoqooAQcQCUX9_HfIOXtnT2TF5HaQo622OyYPtxx-jy7Xf2dmt5VJ9r42Re1ph/pub?gid=1313969604&single=true&output=csv";
         
-        // Link Telegram របស់អ្នក
         const telegramLink = "https://t.me/ChanraPhoneShop";
 
-        // Function ទាញទិន្នន័យ
-        function loadProducts() {
+        function loadData() {
             Papa.parse(sheetURL, {
                 download: true,
-                header: true,
+                header: true, // សំខាន់ណាស់! វាត្រូវការ Header: Name, Price, etc.
+                skipEmptyLines: true,
                 complete: function(results) {
-                    console.log(results.data); // មើលក្នុង Console បើមាន Error
-                    render(results.data);
+                    console.log("Data loaded:", results.data); // មើលក្នុង Console
+                    
+                    if(results.data.length === 0) {
+                        document.getElementById('status').innerHTML = "អត់មានទិន្នន័យទេ! សូមពិនិត្យមើលក្នុង Sheet ម្តងទៀត។";
+                    } else {
+                        render(results.data);
+                    }
                 },
                 error: function(err) {
-                    document.getElementById('loading').innerHTML = "Error loading data!";
+                    document.getElementById('status').innerHTML = "មានបញ្ហាពេលទាញយកទិន្នន័យ!";
                 }
             });
         }
 
-        // Function បង្ហាញលើអេក្រង់
         function render(data) {
-            const list = document.getElementById('product-list');
-            const loading = document.getElementById('loading');
-            
-            // បិទ Loading
-            loading.style.display = 'none';
+            const list = document.getElementById('list');
+            document.getElementById('status').style.display = 'none';
             list.innerHTML = '';
 
             data.forEach(item => {
-                // ប្រសិនបើអត់មានឈ្មោះផលិតផល មិនបាច់បង្ហាញ (ការពារជួរទទេ)
-                if(!item.Name) return;
+                // ប្រសិនបើ Row ណាមួយអត់មានដាក់ឈ្មោះ កូដនឹងរំលងចោល
+                if (!item.Name) return;
 
-                // ពិនិត្យមើលរូបភាព (Link ឬ Icon)
-                let imgDisplay = item.Image && item.Image.includes('http')
-                    ? `<img src="${item.Image}" alt="${item.Name}">`
-                    : `<i class="${item.Image || 'fas fa-box'}"></i>`;
+                // ដោះស្រាយរឿងរូបភាព (Link ឬ Icon)
+                let imgHTML = '<i class="fas fa-box"></i>'; // រូបដើមបើអត់មានដាក់អីសោះ
+                
+                if (item.Image) {
+                    if (item.Image.includes('http')) {
+                         // បើជា Link រូបភាព
+                        imgHTML = `<img src="${item.Image}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\'></i>'">`;
+                    } else {
+                        // បើជា Class Icon (ឧ. fab fa-facebook)
+                        imgHTML = `<i class="${item.Image}"></i>`;
+                    }
+                }
 
-                // បង្កើត HTML Card
-                const cardHTML = `
+                const html = `
                     <div class="card">
-                        <div class="card-img">${imgDisplay}</div>
+                        <div class="card-img">${imgHTML}</div>
                         <div class="card-body">
-                            <div class="badge">${item.Category || ''}</div>
-                            <h3 class="card-title">${item.Name}</h3>
-                            <p class="card-desc">${item.Desc || ''}</p>
-                            <div class="card-footer">
-                                <span class="price">${item.Price}</span>
-                                <a href="${telegramLink}" target="_blank" class="btn-buy">BUY</a>
+                            <div class="category">${item.Category || ''}</div>
+                            <div class="title">${item.Name}</div>
+                            <div class="desc">${item.Desc || 'គ្មានការពិពណ៌នា'}</div>
+                            <div class="footer">
+                                <span class="price">${item.Price || '$0.00'}</span>
+                                <a href="${telegramLink}" target="_blank" class="btn">BUY</a>
                             </div>
                         </div>
                     </div>
                 `;
-                list.innerHTML += cardHTML;
+                list.innerHTML += html;
             });
         }
 
-        // ចាប់ផ្តើមដំណើរការ
-        loadProducts();
+        loadData();
     </script>
-
 </body>
 </html>
-```
