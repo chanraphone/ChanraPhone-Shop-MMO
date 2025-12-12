@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChanraPhone - Battambang</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
@@ -29,44 +29,110 @@
         
         /* --- NAVIGATION --- */
         nav {
-            background: rgba(11, 14, 20, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(11, 14, 20, 0.9);
+            backdrop-filter: blur(15px);
             padding: 15px 5%;
             position: sticky; top: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .logo { font-family: var(--font-en); font-size: 1.5rem; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
         .logo span { color: var(--primary); }
         .nav-icons a { color: var(--text-main); margin-left: 20px; font-size: 1.2rem; transition: 0.3s; }
-        .nav-icons a:hover { color: var(--primary); }
+        .nav-icons a:hover { color: var(--primary); transform: scale(1.1); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION (ANIMATED) --- */
         .hero {
-            background: linear-gradient(135deg, #161b22 0%, #0b0e14 100%);
-            padding: 60px 20px;
+            background: radial-gradient(circle at center, #1f2736 0%, #0b0e14 100%);
+            padding: 70px 20px;
             text-align: center;
             border-bottom: 1px solid #333;
+            position: relative;
+            overflow: hidden;
         }
-        .hero h1 { font-family: var(--font-en); font-size: 2.5rem; margin-bottom: 10px; background: -webkit-linear-gradient(var(--text-main), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* ផ្ទៃខាងក្រោយមានចលនាស្រាលៗ */
+        .hero::before {
+            content: '';
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.05;
+            animation: rotateBg 60s linear infinite;
+            z-index: 0;
+        }
+
+        /* ចលនាអក្សរ PREMIUM STORE */
+        .hero h1 { 
+            position: relative;
+            font-family: var(--font-en); 
+            font-size: 3.5rem; 
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            
+            /* បង្កើតពណ៌ Gradient */
+            background: linear-gradient(
+                90deg, 
+                #ffffff 0%, 
+                #555555 20%, 
+                #00e5ff 50%, 
+                #555555 80%, 
+                #ffffff 100%
+            );
+            background-size: 200% auto;
+            
+            /* កាត់យកតែអក្សរ */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+
+            /* ដាក់ចលនា */
+            animation: shineText 4s linear infinite;
+            z-index: 1;
+        }
+
+        /* អក្សរតូចខាងក្រោម */
+        .hero p { 
+            position: relative;
+            color: var(--text-muted); 
+            font-size: 1.1rem; 
+            z-index: 1;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        /* KEYFRAMES ANIMATIONS */
+        @keyframes shineText {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* --- SEARCH & FILTER --- */
         .controls {
             max-width: 1200px; margin: -30px auto 30px; padding: 0 20px;
-            display: flex; flex-direction: column; gap: 15px;
+            display: flex; flex-direction: column; gap: 15px; position: relative; z-index: 2;
         }
         .search-box {
             position: relative; width: 100%; max-width: 500px; margin: 0 auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .search-box input {
             width: 100%; padding: 15px 50px 15px 20px;
-            border-radius: 50px; border: none; background: var(--card-bg);
+            border-radius: 50px; border: none; background: #1c2128;
             color: #fff; font-family: var(--font-kh); font-size: 1rem;
-            border: 1px solid #333;
+            border: 1px solid #444; transition: 0.3s;
         }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
         .search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); }
         
         .categories {
@@ -77,7 +143,7 @@
             padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s;
             font-size: 0.9rem;
         }
-        .cat-btn:hover, .cat-btn.active { background: var(--primary); color: #000; font-weight: bold; border-color: var(--primary); }
+        .cat-btn:hover, .cat-btn.active { background: var(--primary); color: #000; font-weight: bold; border-color: var(--primary); transform: translateY(-2px); }
 
         /* --- PRODUCT GRID --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 60vh; }
@@ -96,7 +162,10 @@
             transition: all 0.3s ease;
             position: relative;
             display: flex; flex-direction: column;
+            animation: fadeInUp 0.5s ease-out; /* Card Animation */
+            animation-fill-mode: both;
         }
+        /* Stagger animation for cards will be added in JS if needed, but simple CSS is fine */
         .card:hover { transform: translateY(-7px); box-shadow: 0 10px 30px rgba(0, 229, 255, 0.15); border-color: var(--primary); }
         
         .badge {
@@ -129,13 +198,18 @@
             display: flex; align-items: center; justify-content: center;
             transition: 0.3s; text-decoration: none;
         }
-        .buy-btn:hover { background: var(--primary); color: #000; transform: rotate(-20deg); }
+        .buy-btn:hover { background: var(--primary); color: #000; transform: rotate(-20deg) scale(1.1); }
 
         /* --- FOOTER --- */
         footer { text-align: center; padding: 40px 20px; color: #555; font-size: 0.9rem; border-top: 1px solid #222; margin-top: 50px; }
 
         /* --- LOADING --- */
         #loader { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--primary); }
+
+        /* Responsive Fix for Big Text */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -149,7 +223,7 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero Section with Animation -->
     <div class="hero">
         <h1>PREMIUM STORE</h1>
         <p>ហាងលក់ទូរស័ព្ទដៃទំនើប និងគ្រឿងបន្លាស់គ្រប់ប្រភេទ</p>
@@ -162,7 +236,6 @@
             <i class="fas fa-search"></i>
         </div>
         <div class="categories" id="catButtons">
-            <!-- Buttons will be generated here -->
             <div class="cat-btn active" onclick="filterCategory('All')">All</div>
         </div>
     </div>
@@ -175,15 +248,15 @@
 
     <footer>
         &copy; 2023 ChanraPhone Shop - Battambang.<br>
-        Developed for Realtime Stock System.
+        Realtime Stock System
     </footer>
 
     <script>
-        // CONFIG
+        // CONFIG - ដាក់ ID របស់ Google Sheet បងនៅទីនេះ
         const SHEET_ID = '2PACX-1vSZvMLWbBvY76qysxTFTGI-ez0b0Vst2L28VxU-5NLaDA012cMk6bTaKjCmI1uSOe3xuLoxjavg2UAM'; 
         const CSV_URL = `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?output=csv`;
         
-        let allProducts = []; // Store data globally
+        let allProducts = [];
         let currentCategory = 'All';
 
         function init() {
@@ -197,22 +270,16 @@
                         renderCategories();
                         renderProducts(allProducts);
                     } else {
-                        // ប្រសិនបើ Sheet ទទេ ឬ Error -> បង្ហាញ Demo Data ដើម្បីឱ្យស្អាត
-                        console.log("Using Demo Data");
                         useDemoData();
                     }
                 },
-                error: function() {
-                    useDemoData();
-                }
+                error: function() { useDemoData(); }
             });
         }
 
-        // មុខងារបង្ហាញផលិតផល
         function renderProducts(data) {
             const list = document.getElementById('productList');
-            const loader = document.getElementById('loader');
-            loader.style.display = 'none';
+            document.getElementById('loader').style.display = 'none';
             list.innerHTML = '';
 
             if(data.length === 0) {
@@ -220,26 +287,27 @@
                 return;
             }
 
-            data.forEach(item => {
-                // Check stock status (Optional column in sheet: 'Status')
+            data.forEach((item, index) => {
+                // Delay animation for each card slightly
+                const delay = index * 0.1; 
+                
                 let stockBadge = item.Status === 'Out' 
                     ? `<span class="badge badge-out">Out of Stock</span>` 
                     : `<span class="badge badge-stock">In Stock</span>`;
 
-                // Image Handling
                 let imgHTML = `<i class="fas fa-mobile-alt placeholder-icon"></i>`;
                 if (item.Image && item.Image.startsWith('http')) {
                     imgHTML = `<img src="${item.Image}" alt="${item.Name}">`;
                 }
 
                 list.innerHTML += `
-                    <div class="card animate-up">
+                    <div class="card" style="animation-delay: ${delay}s">
                         ${stockBadge}
                         <div class="card-img">${imgHTML}</div>
                         <div class="card-body">
                             <div class="cat-tag">${item.Category || 'Mobile'}</div>
                             <div class="title">${item.Name}</div>
-                            <div class="desc">${item.Desc || 'No description available.'}</div>
+                            <div class="desc">${item.Desc || ''}</div>
                             <div class="price-row">
                                 <span class="price">${item.Price ? '$'+item.Price.replace('$','') : '$0'}</span>
                                 <a href="https://t.me/ChanraPhoneShop?start=${encodeURIComponent(item.Name)}" target="_blank" class="buy-btn">
@@ -252,10 +320,8 @@
             });
         }
 
-        // មុខងារបង្កើតប៊ូតុង Categories ដោយស្វ័យប្រវត្តិ
         function renderCategories() {
             const catContainer = document.getElementById('catButtons');
-            // Get unique categories
             const categories = ['All', ...new Set(allProducts.map(item => item.Category).filter(Boolean))];
             
             catContainer.innerHTML = categories.map(cat => 
@@ -263,50 +329,41 @@
             ).join('');
         }
 
-        // មុខងារ Filter តាម Category
         window.filterCategory = function(category, btnElement) {
             currentCategory = category;
-            
-            // Highlight active button
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             if(btnElement) btnElement.classList.add('active');
-            
             filterData();
         }
 
-        // មុខងារ Search & Filter រួមគ្នា
         window.filterData = function() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
             const filtered = allProducts.filter(item => {
                 const matchesSearch = (item.Name && item.Name.toLowerCase().includes(searchTerm)) || 
                                       (item.Desc && item.Desc.toLowerCase().includes(searchTerm));
                 const matchesCat = currentCategory === 'All' || item.Category === currentCategory;
-                
                 return matchesSearch && matchesCat;
             });
-
             renderProducts(filtered);
         }
 
-        // សម្រាប់ Demo (ពេល Sheet អត់មានទិន្នន័យ)
         function useDemoData() {
+            // ទិន្នន័យគំរូ បើ Sheet មានបញ្ហា
             const demoData = [
-                { Name: "iPhone 14 Pro Max", Category: "Apple", Price: "1099", Desc: "Deep Purple, 256GB", Image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?auto=format&fit=crop&w=500&q=80", Status: "In" },
-                { Name: "Samsung S23 Ultra", Category: "Samsung", Price: "999", Desc: "Phantom Black, 512GB", Image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=500&q=80", Status: "In" },
-                { Name: "MacBook Air M2", Category: "Laptop", Price: "1199", Desc: "Midnight, 8GB/256GB", Image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=500&q=80", Status: "Out" },
-                { Name: "AirPods Pro 2", Category: "Accessories", Price: "249", Desc: "Noise Cancellation", Image: "https://images.unsplash.com/photo-1603351154351-5cf99bc32f2d?auto=format&fit=crop&w=500&q=80", Status: "In" },
-                { Name: "iPhone 13", Category: "Apple", Price: "699", Desc: "Blue, 128GB", Image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=500&q=80", Status: "In" },
-                { Name: "Google Pixel 7", Category: "Google", Price: "599", Desc: "Lemongrass, 128GB", Image: "https://images.unsplash.com/photo-1598327105666-5b89351aff23?auto=format&fit=crop&w=500&q=80", Status: "In" }
+                { Name: "iPhone 15 Pro Max", Category: "Apple", Price: "1199", Desc: "Titanium, 256GB", Image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80", Status: "In" },
+                { Name: "Samsung S24 Ultra", Category: "Samsung", Price: "1299", Desc: "Titanium Gray, AI Features", Image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=500&q=80", Status: "In" },
+                { Name: "MacBook Air M2", Category: "Laptop", Price: "1099", Desc: "Midnight Color", Image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=500&q=80", Status: "Out" },
+                { Name: "AirPods Pro 2", Category: "Accessories", Price: "239", Desc: "USB-C Case", Image: "https://images.unsplash.com/photo-1603351154351-5cf99bc32f2d?auto=format&fit=crop&w=500&q=80", Status: "In" },
+                { Name: "iPad Pro 12.9", Category: "Apple", Price: "1099", Desc: "M2 Chip, Space Grey", Image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=500&q=80", Status: "In" },
+                { Name: "JBL Speaker", Category: "Speaker", Price: "120", Desc: "Flip 6, Waterproof", Image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=500&q=80", Status: "In" }
             ];
             allProducts = demoData;
             renderCategories();
             renderProducts(demoData);
         }
 
-        // Start
         init();
-
     </script>
 </body>
 </html>
+```
